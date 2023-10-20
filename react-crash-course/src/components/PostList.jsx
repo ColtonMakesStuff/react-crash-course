@@ -5,33 +5,30 @@ import classses from './PostList.module.css';
 import Modal from './Modal';
 
 
-const PostList = () => {
-    const [enteredBody, setEnteredBody] = useState('');
-    const [enteredAuthor, setEnteredAuthor] = useState('');
-    const [modalIsVisible, setModalIsVisible] = useState(true);
-   
-const modalIsVisibleHandler = (event) => {
-    setModalIsVisible(false)
+const PostList = ({isPosting, onStopPosting}) => {
+const [posts, setPosts] = useState([]);
+
+const addPostHandler = (postData) => {
+    setPosts((existingPosts) => [postData, ...existingPosts]);
 }
- const changeBodyHandler = (event) => {
-    setEnteredBody(event.target.value)
- }
- const changeAuthorHandler = (event) => {
-    setEnteredAuthor(event.target.value)
- }
-let modalContent
+
+
     return (
         <>  
-        {modalIsVisible ? <Modal onClose={modalIsVisibleHandler} >
+        {isPosting ? <Modal onClose={onStopPosting} >
         <NewPost 
-            onBodyChange={changeBodyHandler} 
-            onAuthorChange={changeAuthorHandler}
+           onAddPost={addPostHandler}
+            onCancel={onStopPosting}
             />
         </Modal>: null }
+        {posts.length > 0 && (
         <ul className={classses.posts}>
-            <Post author={enteredAuthor} body={enteredBody}/>
-            <Post author="Roma" body="is also dumb"/>
+           {posts.map((post) => (
+               <Post key={post.body} author={post.author} body={post.body}/>
+           ))}
         </ul>
+        )}
+        {posts.length === 0 && <h3 className={classses.noPosts}>No posts yet. Start posting!</h3>}
         </> 
     );
     }
