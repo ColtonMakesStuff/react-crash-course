@@ -14,10 +14,11 @@ const postSchema = new Schema({
     },
     // Other fields...
   });
- 
+
+  const Post = model('posts', postSchema);
   ////////////////// create and delete post methods //////////////////
 //create post
-postSchema.methods.createPost = async function(req, res) {
+Post.createPost = async function(req, res) {
     try {
         this.userId = req.body.userId;
         this.content = req.body.content;
@@ -29,7 +30,7 @@ postSchema.methods.createPost = async function(req, res) {
     }
 }
 //get all posts
-postSchema.methods.getAllPosts = async function(req, res) {
+Post.getAllPosts = async function(req, res) {
     try {
     const posts = await Post.find();
     res.status(200).json(posts);
@@ -38,7 +39,7 @@ postSchema.methods.getAllPosts = async function(req, res) {
     }
 }
 //delete post
-postSchema.methods.deletePost = async function(req, res) {
+Post.deletePost = async function(req, res) {
     try {
         const post = await Post.findByIdAndDelete(req.params.id);
         res.status(200).json(post);
@@ -47,6 +48,6 @@ postSchema.methods.deletePost = async function(req, res) {
     }
 }
     //create post model
-const Post = model('posts', postSchema);
+
 
 module.exports = Post;
