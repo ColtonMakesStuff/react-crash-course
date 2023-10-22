@@ -28,6 +28,10 @@ const userSchema = new Schema({
   posts: [{ 
     type: Schema.Types.ObjectId, 
     ref: 'posts' 
+  }],
+  comments: [{
+    type: Schema.Types.ObjectId, 
+    ref: 'posts' 
   }]
 });
 userSchema.pre("save", async function (next) {
