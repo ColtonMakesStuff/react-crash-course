@@ -18,6 +18,7 @@ module.exports = [
       blockedAccounts: [],
       lastAccessed: new Date(),
       posts: []
-    }
+    },
+    
   ];
   

@@ -1,5 +1,5 @@
 const connection = require('../config/connection');
-const { User, Post} = require('../models');
+const { User, Thought} = require('../models');
 const users = require('./data');
 const postData = require('./postData');
 
@@ -19,13 +19,13 @@ await User.insertMany(users)
   .then(() => console.log('Database seeded!'))
   .catch(err => console.error('Failed to seed database:', err))
 
- //seed the posts collection 
-  let postCheck = await connection.db.listCollections({ name: 'posts' }).toArray();
+ //seed the thoughts collection 
+  let postCheck = await connection.db.listCollections({ name: 'thoughts' }).toArray();
   if (postCheck.length) {
-    await connection.dropCollection('posts');
+    await connection.dropCollection('thoughts');
   }
 
-await Post.insertMany(postData)
+await Thought.insertMany(postData)
 .then(() => console.log('Database seeded!'))
 .catch(err => console.error('Failed to seed database:', err))
 

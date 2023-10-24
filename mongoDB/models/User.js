@@ -25,11 +25,11 @@ const userSchema = new Schema({
   // blockedAcounts: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   // Use built in date method to get current date
   lastAccessed: { type: Date, default: Date.now },
-  posts: [{ 
+  thoughts: [{ 
     type: Schema.Types.ObjectId, 
     ref: 'posts' 
   }],
-  comments: [{
+  reactions: [{
     type: Schema.Types.ObjectId, 
     ref: 'posts' 
   }]
@@ -41,8 +41,11 @@ userSchema.pre("save", async function (next) {
   next()
 }
 )
+
+ //create model 
+ const User = model('users', userSchema);
 //create user method
-userSchema.methods.createUser = async function(req, res) {
+User.createUser = async function(req, res) {
   try {
     this.userName = req.body.userName;
     this.password = req.body.password;
@@ -56,7 +59,7 @@ userSchema.methods.createUser = async function(req, res) {
 };
 
 //getallusers method
-userSchema.methods.getAllUsers = async function(req, res) {
+User.getAllUsers = async function(req, res) {
   try {
     const users = await User.find();
     res.status(200).json(users);
@@ -65,7 +68,7 @@ userSchema.methods.getAllUsers = async function(req, res) {
   }
 };
 //add to following method
-userSchema.methods.addToFollowing = async function(req, res) {
+User.addToFollowing = async function(req, res) {
   try {
     const user = await User.findById(req.params.id);
     const userToFollowId = await User.findById(req.body.userToFollowId);
@@ -81,8 +84,7 @@ userSchema.methods.addToFollowing = async function(req, res) {
 ;}
 
 
- //create model 
- const User = model('users', userSchema);
+
 
  // Export model
  module.exports = User;

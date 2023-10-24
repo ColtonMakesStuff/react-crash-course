@@ -11,8 +11,6 @@ const [posts, setPosts] = useState([]);
 const addPostHandler = (postData) => {
     setPosts((existingPosts) => [postData, ...existingPosts]);
 }
-
-
     return (
         <>  
         {isPosting ? <Modal onClose={onStopPosting} >
